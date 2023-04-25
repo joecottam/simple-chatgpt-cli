@@ -1,11 +1,6 @@
-/*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/joecottam/simple-chatgpt-cli/config"
 	"github.com/spf13/cobra"
 )
@@ -18,9 +13,9 @@ var configGetCmd = &cobra.Command{
 		flags := getPresentFlags(cmd)
 
 		if len(flags) == 0 {
-			printConfigValues(config.GetConfigKeys())
+			config.PrintConfig(config.GetConfigKeys())
 		} else {
-			printConfigValues(flags)
+			config.PrintConfig(flags)
 		}
 	},
 }
@@ -43,10 +38,4 @@ func getPresentFlags(cmd *cobra.Command) []string {
 	}
 
 	return flags
-}
-
-func printConfigValues(flags []string) {
-	for _, key := range flags {
-		fmt.Printf("%v: %v \n", key, config.GetConfigValue(key))
-	}
 }

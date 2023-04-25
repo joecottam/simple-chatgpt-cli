@@ -53,7 +53,7 @@ func (c *Chat) getAssistantMessage() {
 	ctx := context.Background()
 
 	req := openai.ChatCompletionRequest{
-		Model:    openai.GPT3Dot5Turbo,
+		Model:    c.History.Model,
 		Messages: c.History.Messages,
 		Stream:   true,
 	}

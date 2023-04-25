@@ -12,6 +12,7 @@ import (
 )
 
 type History struct {
+	Model    string                         `json:"model"`
 	Messages []openai.ChatCompletionMessage `json:"messages"`
 }
 

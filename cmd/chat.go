@@ -12,6 +12,7 @@ import (
 var historyFileName = fmt.Sprintf("chat_%v.json", time.Now().Unix())
 var systemMessage string
 var loadHistory string
+var model string
 
 // chatCmd represents the chat command
 var chatCmd = &cobra.Command{
@@ -19,7 +20,9 @@ var chatCmd = &cobra.Command{
 	Short: "Chat!",
 	Run: func(cmd *cobra.Command, args []string) {
 		chat := chat.Chat{
-			History:         chat.History{},
+			History: chat.History{
+				Model: model,
+			},
 			SystemMessage:   systemMessage,
 			HistoryFileName: historyFileName,
 		}
@@ -33,5 +36,6 @@ func init() {
 	chatCmd.Flags().StringVarP(&systemMessage, "systemMessage", "", "", "The system message i.e. the prompt given to the AI")
 	chatCmd.Flags().StringVarP(&historyFileName, "historyFileName", "", historyFileName, "The file name to save the chat history to")
 	chatCmd.Flags().StringVarP(&loadHistory, "loadHistory", "", "", "The file name to load the chat history from")
+	chatCmd.Flags().StringVarP(&model, "model", "", config.GetConfigValue("defaultModel"), "The model to use for this chat")
 	rootCmd.AddCommand(chatCmd)
 }
