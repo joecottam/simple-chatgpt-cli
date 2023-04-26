@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/joecottam/simple-chatgpt-cli/config"
 	"github.com/manifoldco/promptui"
@@ -16,21 +17,26 @@ type History struct {
 	Messages []openai.ChatCompletionMessage `json:"messages"`
 }
 
-func (h *History) save(filepath string) {
+func (h *History) save(filePath string) {
 	content, err := json.Marshal(h)
 	if err != nil {
 		fmt.Println("Error marshalling json: ", err)
 	}
 
-	err = os.WriteFile(filepath, content, 0644)
+	err = os.MkdirAll(filepath.Dir(filePath), os.ModePerm)
+	if err != nil {
+		fmt.Println("Error creating directory: ", err)
+	}
+
+	err = os.WriteFile(filePath, content, 0644)
 
 	if err != nil {
 		fmt.Println("Error writing to file: ", err)
 	}
 }
 
-func (h *History) load(filepath string) {
-	content, err := os.ReadFile(filepath)
+func (h *History) load(filePath string) {
+	content, err := os.ReadFile(filePath)
 	if err != nil {
 		log.Fatal("Error reading file: ", err)
 	}

@@ -10,7 +10,7 @@ import (
 
 var deleteChatCmd = &cobra.Command{
 	Use:   "deleteChat",
-	Short: "Chat!",
+	Short: "Delete a saved chat",
 	Run: func(cmd *cobra.Command, args []string) {
 		historyFileName, err := chat.SelectChat()
 		if err != nil {

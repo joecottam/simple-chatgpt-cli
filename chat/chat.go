@@ -27,12 +27,17 @@ func (c *Chat) Start() {
 	c.getSystemMessage()
 	c.getUserMessage()
 
+	i := 0
+
 	for c.Chatting {
 		c.getAssistantMessage()
 		c.getUserMessage()
+		i++
 	}
 
-	fmt.Printf("Chat history saved to %v\n", c.historyFilePath())
+	if i > 0 {
+		fmt.Printf("Chat history saved to %v\n", historyFilePath(c.HistoryFileName))
+	}
 }
 
 func (c *Chat) getSystemMessage() {
@@ -77,7 +82,7 @@ func (c *Chat) getAssistantMessage() {
 				Content: messageBody,
 			}
 			c.History.Messages = append(c.History.Messages, message)
-			c.History.save(c.historyFilePath())
+			c.History.save(historyFilePath(c.HistoryFileName))
 			return
 		}
 
@@ -109,13 +114,13 @@ func (c *Chat) getUserMessage() {
 	})
 }
 
-func (c *Chat) historyFilePath() string {
-	return fmt.Sprintf("%v/%v", config.GetConfigValue("chatsDir"), c.HistoryFileName)
+func historyFilePath(historyFileName string) string {
+	return fmt.Sprintf("%v/%v", config.GetConfigValue("chatsDir"), historyFileName)
 }
 
 func (c *Chat) LoadHistory(historyFileName string) {
 	c.HistoryFileName = historyFileName
-	historyFilePath := c.historyFilePath()
+	historyFilePath := historyFilePath(c.HistoryFileName)
 	fmt.Println("Loading chat history from: ", historyFilePath)
 	c.History.load(historyFilePath)
 

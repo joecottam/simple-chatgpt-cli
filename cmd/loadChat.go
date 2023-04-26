@@ -10,7 +10,7 @@ import (
 
 var loadChatCmd = &cobra.Command{
 	Use:   "loadChat",
-	Short: "Chat!",
+	Short: "Load a saved chat",
 	Run: func(cmd *cobra.Command, args []string) {
 		c := chat.Chat{History: chat.History{}}
 		historyFileName, err := chat.SelectChat()

@@ -9,7 +9,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-// configSetCmd represents the configSet command
 var configSetCmd = &cobra.Command{
 	Use:   "configSet",
 	Short: "Set configuration values",
@@ -29,6 +28,7 @@ var configSetCmd = &cobra.Command{
 }
 
 func init() {
+	config.SetDefaults()
 	for key, desc := range config.GetConfigItems() {
 		configSetCmd.Flags().String(key, "", desc)
 	}

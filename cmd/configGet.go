@@ -5,7 +5,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// configGetCmd represents the configGet command
 var configGetCmd = &cobra.Command{
 	Use:   "configGet",
 	Short: "Get configuration values",
@@ -21,9 +20,9 @@ var configGetCmd = &cobra.Command{
 }
 
 func init() {
+	config.SetDefaults()
 	for key, desc := range config.GetConfigItems() {
-		configGetCmd.Flags().String(key, "", desc)
-		configGetCmd.Flags().Lookup(key).NoOptDefVal = "true"
+		configGetCmd.Flags().Bool(key, false, desc)
 	}
 	rootCmd.AddCommand(configGetCmd)
 }
@@ -31,8 +30,8 @@ func init() {
 func getPresentFlags(cmd *cobra.Command) []string {
 	flags := []string{}
 	for key := range config.GetConfigItems() {
-		value, _ := cmd.Flags().GetString(key)
-		if value != "" {
+		value, _ := cmd.Flags().GetBool(key)
+		if value {
 			flags = append(flags, key)
 		}
 	}

@@ -14,10 +14,9 @@ var systemMessage string
 var loadHistory string
 var model string
 
-// chatCmd represents the chat command
 var chatCmd = &cobra.Command{
 	Use:   "chat",
-	Short: "Chat!",
+	Short: "Start a new chat",
 	Run: func(cmd *cobra.Command, args []string) {
 		chat := chat.Chat{
 			History: chat.History{
